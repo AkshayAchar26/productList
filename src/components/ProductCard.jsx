@@ -15,7 +15,7 @@ function ProductCard({
   productDescription,
 }) {
   return (
-    <Card className="w-96 flex  ">
+    <Card className="w-96 flex mt-2 ">
       <CardHeader shadow={false} floated={false} className="h-96">
         <img
           src={productImage}

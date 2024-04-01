@@ -36,14 +36,15 @@ class ProductService {
     }
   }
 
-  async getProductsByCategories(category) {
-    console.log(category);
+  async getProductsByCategories({ category }) {
     try {
-      const productsByCategory = await fetch(
-        `${conf.dataUrl}/products/category/${category}`
-      ).then((res) => res.json());
-
-      return productsByCategory;
+      if (category) {
+        const productsByCategory = await fetch(
+          `${conf.dataUrl}/products/category/${category}`
+        ).then((res) => res.json());
+        return productsByCategory;
+      }
+      return null;
     } catch (error) {
       console.log("Error while getting products by category :: ", error);
     }

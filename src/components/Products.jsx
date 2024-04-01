@@ -11,7 +11,6 @@ function Products() {
   const [catProduct, setCatProduct] = useState("");
 
   const category = useSelector((state) => state.category);
-  console.log(catProduct);
 
   useEffect(() => {
     async function fnc() {
@@ -22,32 +21,42 @@ function Products() {
   }, []);
 
   useEffect(() => {
-    async function categoryHandler(category) {
+    async function categoryHandler() {
       const cateProduct = await productService.getProductsByCategories(
         category
       );
       setCatProduct(cateProduct);
     }
-
     categoryHandler();
   }, [category]);
 
   return (
     <ul className="flex flex-row flex-wrap mt-10 justify-evenly">
-      {
-        product.products?.map((item) => (
-          <li key={item.id} className="flex flex-wrap">
-            <ProductCard
-              key={item.title}
-              productImage={item.thumbnail}
-              productTitle={item.title}
-              productPrice={item.price}
-              productCategory={item.category}
-              productDescription={item.description}
-            />
-          </li>
-        ))}
-      
+      {!catProduct
+        ? product.products?.map((item) => (
+            <li key={item.id} className="flex flex-wrap">
+              <ProductCard
+                key={item.title}
+                productImage={item.thumbnail}
+                productTitle={item.title}
+                productPrice={item.price}
+                productCategory={item.category}
+                productDescription={item.description}
+              />
+            </li>
+          ))
+        : catProduct.products?.map((item) => (
+            <li key={item.id} className="flex flex-wrap">
+              <ProductCard
+                key={item.title}
+                productImage={item.thumbnail}
+                productTitle={item.title}
+                productPrice={item.price}
+                productCategory={item.category}
+                productDescription={item.description}
+              />
+            </li>
+          ))}
     </ul>
   );
 }
