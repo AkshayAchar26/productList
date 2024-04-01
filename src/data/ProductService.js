@@ -36,7 +36,8 @@ class ProductService {
     }
   }
 
-  async getProductsByCategories({ category }) {
+  async getProductsByCategories(category) {
+    console.log(category);
     try {
       const productsByCategory = await fetch(
         `${conf.dataUrl}/products/category/${category}`
