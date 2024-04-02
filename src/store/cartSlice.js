@@ -10,8 +10,12 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const item = action.payload;
-      if (state.items["id"] === item["id"]) {
-        state.items["quantity"] += 1;
+      const itemid = state.items.findIndex(
+        (item) => item["id"] === action.payload["id"]
+      );
+
+      if (itemid > -1) {
+        state.items[itemid].quantity += 1;
       } else {
         state.items.push({
           id: item["id"],
@@ -30,6 +34,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { toggleCart } = cartSlice.actions;
+export const { addItem, removeItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

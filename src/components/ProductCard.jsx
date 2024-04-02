@@ -7,8 +7,6 @@ import {
   Button,
 } from "@material-tailwind/react";
 import currencyConvertter from "../util/currencyFormatter";
-import { useDispatch } from "react-redux";
-import { useRef } from "react";
 
 function ProductCard({
   productImage,
@@ -18,8 +16,6 @@ function ProductCard({
   productDescription,
   addToCart,
 }) {
-  const dispatch = useDispatch();
-  const cardRef = useRef();
 
   const cartHandler = () => {
     console.log(cardRef.current);

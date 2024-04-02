@@ -7,12 +7,14 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
+import { useNavigate,Link } from "react-router-dom";
 
 function Header() {
   const [openNav, setOpenNav] = useState(false);
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
   const cart = useSelector((state) => state.cart);
+  const navigate = useNavigate();
 
   let renderButton = true;
 
@@ -47,10 +49,7 @@ function Header() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <button
-          onClick={() => console.log("clicked")}
-          className="p-1 font-normal"
-        >
+        <button onClick={() => navigate("/")} className="p-1 font-normal">
           PRODUCTS
         </button>
       </Typography>
@@ -60,10 +59,7 @@ function Header() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <button
-          onClick={() => console.log("clicked")}
-          className="p-1 font-normal"
-        >
+        <button onClick={() => navigate("/")} className="p-1 font-normal">
           COLLECTIONS
         </button>
       </Typography>
@@ -73,10 +69,7 @@ function Header() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <button
-          onClick={() => console.log("clicked")}
-          className="p-1 font-normal"
-        >
+        <button onClick={() => navigate("/")} className="p-1 font-normal">
           BLOG
         </button>
       </Typography>
@@ -86,10 +79,7 @@ function Header() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <button
-          onClick={() => console.log("clicked")}
-          className="p-1 font-normal"
-        >
+        <button onClick={() => navigate("/")} className="p-1 font-normal">
           ABOUT US
         </button>
       </Typography>
@@ -100,11 +90,7 @@ function Header() {
     <div className="-m-6 max-h-[768px] w-[calc(100%+48px)] ">
       <Navbar className=" top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 ">
         <div className="flex items-center justify-between text-blue-gray-900">
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 cursor-pointer py-1.5 font-medium"
-          >
+          <Typography as="a" className="mr-4 cursor-pointer py-1.5 font-medium">
             LOGO
           </Typography>
           <div className="flex items-center gap-4">
@@ -121,9 +107,11 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <Button className="rounded-full">
-                    Cart {cart.items.length}
-                  </Button>
+                  <Link to='/cart'>
+                    <Button className="rounded-full">
+                      Cart {cart.items.length}
+                    </Button>
+                  </Link>
                   <Button color="red" onClick={logoutHandler}>
                     Logout
                   </Button>

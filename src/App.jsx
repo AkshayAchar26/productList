@@ -1,15 +1,14 @@
+import { Outlet } from "react-router-dom";
 import "./App.css";
-import { Header, Products, Categories } from "./components/index";
+import { Header, Products, Categories, Cart } from "./components/index";
 
 function App() {
-  
   return (
     <>
       <Header />
-      <main>
-        <Categories />
-        <Products />
-      </main>
+
+      <Categories />
+      <Products />
     </>
   );
 }

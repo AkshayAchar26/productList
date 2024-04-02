@@ -3,7 +3,8 @@ import productService from "../data/ProductService";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ProductCard } from ".";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addItem } from "../store/cartSlice";
 
 function Products() {
   const [product, setProduct] = useState("");
@@ -12,8 +13,7 @@ function Products() {
 
   const category = useSelector((state) => state.category);
 
-
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fnc() {
@@ -34,11 +34,11 @@ function Products() {
   }, [category]);
 
   const cartItem = (item) => {
-    console.log(item);
-  }
+    dispatch(addItem(item));
+  };
 
   return (
-    <ul className="flex flex-row flex-wrap mt-10 justify-evenly" >
+    <ul className="flex flex-row flex-wrap mt-10 justify-evenly">
       {!catProduct
         ? product.products?.map((item) => (
             <li key={item.id} className="flex flex-wrap">
@@ -49,12 +49,12 @@ function Products() {
                 productPrice={item.price}
                 productCategory={item.category}
                 productDescription={item.description}
-                addToCart = {() => cartItem(item)}
+                addToCart={() => cartItem(item)}
               />
             </li>
           ))
         : catProduct.products?.map((item) => (
-            <li key={item.id} className="flex flex-wrap" >
+            <li key={item.id} className="flex flex-wrap">
               <ProductCard
                 key={item.title}
                 productImage={item.thumbnail}
@@ -62,6 +62,7 @@ function Products() {
                 productPrice={item.price}
                 productCategory={item.category}
                 productDescription={item.description}
+                addToCart={() => cartItem(item)}
               />
             </li>
           ))}
