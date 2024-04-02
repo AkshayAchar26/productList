@@ -12,6 +12,9 @@ function Products() {
 
   const category = useSelector((state) => state.category);
 
+
+
+
   useEffect(() => {
     async function fnc() {
       const products = await productService.getAllProducts();
@@ -30,8 +33,12 @@ function Products() {
     categoryHandler();
   }, [category]);
 
+  const cartItem = (item) => {
+    console.log(item);
+  }
+
   return (
-    <ul className="flex flex-row flex-wrap mt-10 justify-evenly">
+    <ul className="flex flex-row flex-wrap mt-10 justify-evenly" >
       {!catProduct
         ? product.products?.map((item) => (
             <li key={item.id} className="flex flex-wrap">
@@ -42,11 +49,12 @@ function Products() {
                 productPrice={item.price}
                 productCategory={item.category}
                 productDescription={item.description}
+                addToCart = {() => cartItem(item)}
               />
             </li>
           ))
         : catProduct.products?.map((item) => (
-            <li key={item.id} className="flex flex-wrap">
+            <li key={item.id} className="flex flex-wrap" >
               <ProductCard
                 key={item.title}
                 productImage={item.thumbnail}

@@ -6,6 +6,9 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+import currencyConvertter from "../util/currencyFormatter";
+import { useDispatch } from "react-redux";
+import { useRef } from "react";
 
 function ProductCard({
   productImage,
@@ -13,7 +16,15 @@ function ProductCard({
   productPrice,
   productCategory,
   productDescription,
+  addToCart,
 }) {
+  const dispatch = useDispatch();
+  const cardRef = useRef();
+
+  const cartHandler = () => {
+    console.log(cardRef.current);
+  };
+
   return (
     <Card className="w-96 flex mt-2 ">
       <CardHeader shadow={false} floated={false} className="h-96">
@@ -29,7 +40,7 @@ function ProductCard({
             {productTitle}
           </Typography>
           <Typography color="blue-gray" className="font-medium">
-            ${productPrice}
+            {currencyConvertter.format(productPrice)}
           </Typography>
         </div>
         <Typography
@@ -52,6 +63,7 @@ function ProductCard({
           ripple={false}
           fullWidth={true}
           className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+          onClick={addToCart}
         >
           Add to Cart
         </Button>

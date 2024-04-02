@@ -6,13 +6,38 @@ import {
   IconButton,
   Collapse,
 } from "@material-tailwind/react";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [openNav, setOpenNav] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [signup, setSignup] = useState(false);
+  const cart = useSelector((state) => state.cart);
+
+  let renderButton = true;
 
   useEffect(() => {
     addEventListener("resize", () => innerWidth >= 960 && setOpenNav(false));
   }, []);
+
+  const loginHandler = () => {
+    setLogin(true);
+  };
+
+  const signUpHandler = () => {
+    setSignup(true);
+  };
+
+  const logoutHandler = () => {
+    setLogin(false);
+    setSignup(false);
+  };
+
+  if (login || signup) {
+    renderButton = false;
+  } else {
+    renderButton = true;
+  }
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -85,21 +110,27 @@ function Header() {
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-x-1">
-              <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Log In</span>
-              </Button>
-              <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Sign in</span>
-              </Button>
+              {renderButton ? (
+                <>
+                  <Button variant="text" size="sm" onClick={loginHandler}>
+                    <span>Log In</span>
+                  </Button>
+                  <Button variant="gradient" size="sm" onClick={signUpHandler}>
+                    <span>Sign in</span>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button className="rounded-full">
+                    Cart {cart.items.length}
+                  </Button>
+                  <Button color="red" onClick={logoutHandler}>
+                    Logout
+                  </Button>
+                </>
+              )}
             </div>
+
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -139,17 +170,7 @@ function Header() {
             </IconButton>
           </div>
         </div>
-        <Collapse open={openNav}>
-          {navList}
-          <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="">
-              <span>Log In</span>
-            </Button>
-            <Button fullWidth variant="gradient" size="sm" className="">
-              <span>Sign in</span>
-            </Button>
-          </div>
-        </Collapse>
+        <Collapse open={openNav}>{navList}</Collapse>
       </Navbar>
     </div>
   );
