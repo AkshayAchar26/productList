@@ -7,13 +7,20 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Header() {
   const [openNav, setOpenNav] = useState(false);
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
   const cart = useSelector((state) => state.cart);
+  let total;
+  if (cart.items.length > 0) {
+    total = cart.items.reduce(
+      (total, curValue) => curValue.quantity + total,
+      0
+    );
+  }
   const navigate = useNavigate();
 
   let renderButton = true;
@@ -107,10 +114,8 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <Link to='/cart'>
-                    <Button className="rounded-full">
-                      Cart {cart.items.length}
-                    </Button>
+                  <Link to="/cart">
+                    <Button className="rounded-full">Cart {total}</Button>
                   </Link>
                   <Button color="red" onClick={logoutHandler}>
                     Logout

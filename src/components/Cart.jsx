@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem, removeItem } from "../store/cartSlice";
-import { Card, CardBody, CardHeader } from "@material-tailwind/react";
+import { addItem, removeItem, removeQuantity } from "../store/cartSlice";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
 
   const handleIncrease = () => {
-    dispatch(increaseQuantity(item.id));
+    dispatch(addItem(item));
   };
 
   const handleDecrease = () => {
-    dispatch(decreaseQuantity(item.id));
+    dispatch(removeQuantity(item.id));
   };
 
   return (
@@ -42,7 +41,7 @@ const CartItem = ({ item }) => {
           </div>
         </div>
       </div>
-      <p className="font-semibold">${item.productPrice * item.quantity}</p>
+      <p className="font-semibold">${item.price * item.quantity}</p>
     </div>
   );
 };
@@ -50,11 +49,19 @@ const CartItem = ({ item }) => {
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
 
+  const total = cartItems.reduce((total,item) => total + (item.quantity * item.price) ,0)
+
   return (
-    <div className="max-w-lg mx-auto mt-8">
+    <div className="max-w-lg mx-auto mt-8 flex-col ">
       {cartItems.map((item) => (
         <CartItem key={item.id} item={item} />
       ))}
+      {cartItems.length > 0 && (
+        <div className="flex w-full justify-between">
+          <h2 className="font-semibold">Total</h2>
+          <p className="font-semibold">${total}</p>
+        </div>
+      )}
     </div>
   );
 };
